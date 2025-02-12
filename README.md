@@ -1,6 +1,48 @@
-# Project #10 - Argent Bank API
+# Argent Bank Project
 
-This codebase contains the code needed to run the backend for Argent Bank.
+Ce projet est une application bancaire complète avec une interface utilisateur React et une API backend.
+
+## Structure du Projet
+
+Le projet est divisé en deux parties principales :
+
+### Frontend (`/argent-bank-frontend`)
+
+- Application React
+- Gestion d'état avec Redux
+- Routing avec React Router
+- Styles CSS
+- Interface utilisateur responsive
+
+### Backend (`/argent-bank-backend`)
+
+- API Node.js
+- Base de données MongoDB
+- Documentation Swagger
+- Authentification JWT
+
+## Installation
+
+### Backend
+
+```bash
+cd argent-bank-backend
+npm install
+npm run dev:server
+```
+
+### Frontend
+
+```bash
+cd argent-bank-frontend
+npm install
+npm run dev
+```
+
+## Documentation API
+
+La documentation de l'API est disponible à l'adresse suivante une fois le serveur lancé :
+http://localhost:3001/api-docs
 
 ## Getting Started
 
@@ -58,10 +100,6 @@ Once you run the `populate-db` script, you should have two users in your databas
 - Last Name: `Rogers`,
 - Email: `steve@rogers.com`,
 - Password: `password456`
-
-## API Documentation
-
-To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
 
 ## Design Assets
 
