@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { loginStart, loginSuccess, loginFailure } from '../features/auth/authSlice'
+import authService from '../services/authService'
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -8,12 +10,39 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false)
   
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { loading, error } = useSelector((state) => state.auth)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    dispatch(loginStart())
-    // TODO: Implémenter l'appel API pour la connexion
+    
+    try {
+      // 1. On indique à Redux que la connexion commence
+      dispatch(loginStart())
+
+      // 2. On appelle notre service d'authentification
+      const userData = await authService.login(username, password)
+
+      // 3. Si la connexion réussit, on met à jour Redux
+      dispatch(loginSuccess({
+        user: userData,
+        token: userData.token
+      }))
+
+      // 4. Si "Remember me" est coché, on sauvegarde les identifiants
+      if (rememberMe) {
+        localStorage.setItem('rememberedUsername', username)
+      } else {
+        localStorage.removeItem('rememberedUsername')
+      }
+
+      // 5. On redirige vers la page de profil
+      navigate('/profile')
+
+    } catch (error) {
+      // 6. En cas d'erreur, on met à jour Redux avec l'erreur
+      dispatch(loginFailure(error.toString()))
+    }
   }
 
   return (
