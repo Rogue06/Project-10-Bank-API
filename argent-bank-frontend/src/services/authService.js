@@ -38,6 +38,19 @@ const authService = {
       throw error.response?.data?.message || "Une erreur est survenue";
     }
   },
+
+  // Fonction pour mettre à jour le profil utilisateur
+  updateProfile: async (firstName, lastName) => {
+    try {
+      const response = await api.put("/user/profile", {
+        firstName,
+        lastName,
+      });
+      return response.data.body;
+    } catch (error) {
+      throw error.response?.data?.message || "Une erreur est survenue";
+    }
+  },
 };
 
 export default authService;

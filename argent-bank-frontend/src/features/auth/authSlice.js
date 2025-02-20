@@ -33,10 +33,30 @@ const authSlice = createSlice({
       state.token = null;
       state.error = null;
     },
+    updateProfileStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateProfileSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      state.error = null;
+    },
+    updateProfileFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  updateProfileStart,
+  updateProfileSuccess,
+  updateProfileFailure,
+} = authSlice.actions;
 
 export default authSlice.reducer;
