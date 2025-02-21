@@ -17,8 +17,8 @@ body {
   flex: 1;
 }
 
-.bg-dark {
-  background-color: #12002b;
+.bg-light {
+  background-color: #e8e5ec;
 }
 
 .sr-only {
@@ -40,6 +40,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  background-color: white;
 }
 
 .main-nav a {
@@ -62,6 +63,7 @@ body {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  padding: 0;
 }
 
 .main-nav-item:hover {
@@ -70,6 +72,7 @@ body {
 
 .main-nav-item i {
   margin-right: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .main-nav-logo {
@@ -181,9 +184,11 @@ body {
   box-sizing: border-box;
   background-color: white;
   width: 300px;
-  margin: 0 auto;
-  margin-top: 3rem;
+  margin: 3rem auto;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sign-in-icon {
@@ -200,26 +205,34 @@ body {
 
 .input-wrapper {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  flex-direction: column;
+  text-align: left;
   margin-bottom: 1rem;
+  width: 100%;
+}
+
+.input-wrapper label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .input-wrapper input {
-  padding: 0.5rem;
+  padding: 5px;
   font-size: 1.2rem;
-  width: 200px;
+  width: 100%;
 }
 
 .button-wrapper {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center;
+  margin-top: 1rem;
 }
 
 .error-text {
   color: #ff0000;
   margin-top: 1rem;
+  font-weight: bold;
 }
 
 .footer {
@@ -272,22 +285,26 @@ body {
 }
 
 .edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
+  border: 2px solid #6461ff9c;
+  background-color: #fff;
+  color: #6461ff;
   font-weight: bold;
   padding: 10px;
   width: 120px;
-  margin: 0 0.25rem;
+  margin: 1rem 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .edit-button:hover {
-  background-color: #00a067;
+  background-color: #6461ff;
+  color: #fff;
 }
 
 .edit-button:disabled {
   background-color: #ccc;
   border-color: #ccc;
+  color: #fff;
   cursor: not-allowed;
 }
 
@@ -295,9 +312,31 @@ body {
   margin-top: 1rem;
 }
 
+.edit-form .input-wrapper {
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.edit-form input {
+  width: 200px;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
 .header {
-  color: #fff;
+  color: #2c3e50;
   margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #e8e5ec;
+}
+
+.header h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
 }
 
 .transaction-button {
@@ -307,9 +346,10 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border-color: #6458f5;
+  background-color: #6458f5;
   color: #fff;
+  border-radius: 3px;
 }
 
 @media (min-width: 720px) {
@@ -329,3 +369,10 @@ body {
 #root {
   width: 100%;
 }
+
+.edit-form input::placeholder { 
+  color: #e8e5ec;
+  opacity: 1; 
+}
+
+

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { updateProfileStart, updateProfileSuccess, updateProfileFailure } from '../features/auth/authSlice'
 import authService from '../services/authService'
+import { mockAccounts } from '../data/mockAccounts'
 
 function Profile() {
   const [isEditing, setIsEditing] = useState(false)
@@ -36,6 +37,11 @@ function Profile() {
   }
 
   const handleSave = async () => {
+    if (!firstName.trim() || !lastName.trim()) {
+      dispatch(updateProfileFailure('First name and last name are required'))
+      return
+    }
+
     try {
       dispatch(updateProfileStart())
       const updatedUser = await authService.updateProfile(firstName, lastName)
@@ -48,73 +54,60 @@ function Profile() {
   }
 
   return (
-    <main className="main bg-dark">
+    <main className="main bg-light">
       <div className="header">
+        <h1>Welcome back</h1>
         {!isEditing ? (
           <>
-            <h1>Welcome back<br />{user?.firstName} {user?.lastName}!</h1>
+            <h1>{user?.firstName} {user?.lastName}</h1>
             <button className="edit-button" onClick={handleEdit}>Edit Name</button>
           </>
         ) : (
-          <>
-            <h1>Welcome back</h1>
-            <div className="edit-form">
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
-              <div className="button-wrapper">
-                <button className="edit-button" onClick={handleSave} disabled={loading}>
-                  {loading ? 'Saving...' : 'Save'}
-                </button>
-                <button className="edit-button" onClick={handleCancel}>Cancel</button>
-              </div>
-              {error && <p className="error-text">{error}</p>}
+          <div className="edit-form">
+            <div className="input-wrapper">
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                autoFocus
+                placeholder="Tony"
+              />
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Jarvis"
+              />
             </div>
-          </>
+            <div className="button-wrapper">
+              <button 
+                className="edit-button" 
+                onClick={handleSave} 
+                disabled={loading || !firstName.trim() || !lastName.trim()}
+              >
+                Save
+              </button>
+              <button className="edit-button" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+            {error && <p className="error-text">{error}</p>}
+          </div>
         )}
       </div>
       <h2 className="sr-only">Accounts</h2>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-          <p className="account-amount">$2,082.79</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-          <p className="account-amount">$10,928.42</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-          <p className="account-amount">$184.30</p>
-          <p className="account-amount-description">Current Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
+      {mockAccounts.map((account) => (
+        <section key={account.id} className="account">
+          <div className="account-content-wrapper">
+            <h3 className="account-title">{account.title} ({account.id})</h3>
+            <p className="account-amount">${account.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+            <p className="account-amount-description">{account.description}</p>
+          </div>
+          <div className="account-content-wrapper cta">
+            <button className="transaction-button">View transactions</button>
+          </div>
+        </section>
+      ))}
     </main>
   )
 }
