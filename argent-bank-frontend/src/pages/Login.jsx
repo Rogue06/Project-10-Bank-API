@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginStart, loginSuccess, loginFailure } from '../features/auth/authSlice'
@@ -12,6 +12,14 @@ function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading, error } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem('rememberedUsername')
+    if (savedUsername) {
+      setUsername(savedUsername)
+      setRememberMe(true)
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

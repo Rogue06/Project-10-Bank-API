@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../features/auth/authSlice'
 import logo from '../assets/argentBankLogo.png'
@@ -6,11 +6,9 @@ import logo from '../assets/argentBankLogo.png'
 function Header() {
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const handleSignOut = () => {
     dispatch(logout())
-    navigate('/')
   }
 
   return (

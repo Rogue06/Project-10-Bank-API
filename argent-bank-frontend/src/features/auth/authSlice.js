@@ -32,6 +32,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.error = null;
+      state.loading = false;
+      localStorage.removeItem("token");
     },
     updateProfileStart: (state) => {
       state.loading = true;

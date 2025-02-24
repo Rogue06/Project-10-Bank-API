@@ -9,9 +9,15 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const { user, loading, error } = useSelector((state) => state.auth)
+  const { user, loading, error, isAuthenticated } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated, navigate])
 
   useEffect(() => {
     if (user) {
@@ -20,11 +26,7 @@ function Profile() {
     }
   }, [user])
 
-  // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
-  if (!user) {
-    navigate('/login')
-    return null
-  }
+  if (!isAuthenticated) return null;
 
   const handleEdit = () => {
     setIsEditing(true)
