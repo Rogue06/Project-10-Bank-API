@@ -106,7 +106,13 @@ function Profile() {
             <p className="account-amount-description">{account.description}</p>
           </div>
           <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
+            <button 
+              className="transaction-button"
+              disabled
+              title="Fonctionnalité à venir"
+            >
+              View transactions
+            </button>
           </div>
         </section>
       ))}

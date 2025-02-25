@@ -419,4 +419,85 @@ form {
   opacity: 1; 
 }
 
+/* Styles pour la page de transactions */
+.transactions-section {
+  width: 95%;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.transactions-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.transactions-table select,
+.transactions-table input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.transactions-table select:focus,
+.transactions-table input:focus {
+  outline: none;
+  border-color: #6458f5;
+}
+
+.balance {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  color: #2c3e50;
+}
+
+.balance-description {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .transactions-section {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .transactions-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 0.5rem;
+    min-width: 120px;
+  }
+}
+
+/* Fin du fichier */
+
 

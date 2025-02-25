@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: Argent Bank API - Transactions
+  description: |-
+    API pour la gestion des transactions bancaires d'Argent Bank.
+    Cette API permet aux utilisateurs de visualiser, créer, modifier et supprimer leurs transactions.
+  version: 1.0.0
+  
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Serveur de développement
+
+tags:
+  - name: transactions
+    description: Opérations liées aux transactions bancaires
+
+paths:
+  /user/{userId}/accounts/{accountId}/transactions:
+    get:
+      tags:
+        - transactions
+      summary: Récupère toutes les transactions du mois en cours
+      description: Retourne la liste des transactions du mois en cours pour un compte spécifique
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Identifiant de l'utilisateur
+          schema:
+            type: string
+        - name: accountId
+          in: path
+          required: true
+          description: Identifiant du compte
+          schema:
+            type: string
+        - name: month
+          in: query
+          required: false
+          description: Mois des transactions (format MM-YYYY)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des transactions récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Paramètres invalides
+        '401':
+          description: Non autorisé - Authentification requise
+        '403':
+          description: Accès refusé - Vous n'avez pas accès à ce compte
+        '404':
+          description: Compte non trouvé
+
+  /user/{userId}/accounts/{accountId}/transactions/{transactionId}:
+    get:
+      tags:
+        - transactions
+      summary: Récupère les détails d'une transaction
+      description: Retourne les informations détaillées d'une transaction spécifique
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Identifiant de l'utilisateur
+          schema:
+            type: string
+        - name: accountId
+          in: path
+          required: true
+          description: Identifiant du compte
+          schema:
+            type: string
+        - name: transactionId
+          in: path
+          required: true
+          description: Identifiant de la transaction
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détails de la transaction récupérés avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetail'
+        '404':
+          description: Transaction non trouvée
+
+    put:
+      tags:
+        - transactions
+      summary: Modifie les détails d'une transaction
+      description: Permet de modifier la catégorie et les notes d'une transaction
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Identifiant de l'utilisateur
+          schema:
+            type: string
+        - name: accountId
+          in: path
+          required: true
+          description: Identifiant du compte
+          schema:
+            type: string
+        - name: transactionId
+          in: path
+          required: true
+          description: Identifiant de la transaction
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                  description: Catégorie de la transaction
+                notes:
+                  type: string
+                  description: Notes personnelles sur la transaction
+      responses:
+        '200':
+          description: Transaction modifiée avec succès
+        '400':
+          description: Données invalides
+        '404':
+          description: Transaction non trouvée
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "t123"
+        date:
+          type: string
+          format: date
+          example: "2024-03-20"
+        description:
+          type: string
+          example: "Golden Sun Bakery"
+        amount:
+          type: number
+          format: float
+          example: 5.00
+        type:
+          type: string
+          enum: [DEBIT, CREDIT]
+          example: "DEBIT"
+        category:
+          type: string
+          example: "Food"
+        notes:
+          type: string
+          example: "Breakfast croissants"
+        balance:
+          type: number
+          format: float
+          example: 2082.79
+
+    TransactionDetail:
+      allOf:
+        - $ref: '#/components/schemas/Transaction'
+        - type: object
+          properties:
+            pending:
+              type: boolean
+              example: false
