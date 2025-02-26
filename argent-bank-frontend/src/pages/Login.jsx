@@ -32,10 +32,7 @@ function Login() {
       const userData = await authService.login(username, password)
 
       // 3. Si la connexion réussit, on met à jour Redux
-      dispatch(loginSuccess({
-        user: userData,
-        token: userData.token
-      }))
+      dispatch(loginSuccess(userData))
 
       // 4. Si "Remember me" est coché, on sauvegarde les identifiants
       if (rememberMe) {

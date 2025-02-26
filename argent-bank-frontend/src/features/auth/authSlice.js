@@ -19,7 +19,26 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isAuthenticated = true;
       state.loading = false;
-      state.user = action.payload.user;
+
+      // Gestion flexible des données utilisateur
+      // Cette approche permet de gérer différents formats de réponse API
+      // et assure que le profil reste correctement synchronisé
+      if (
+        action.payload.firstName ||
+        action.payload.lastName ||
+        action.payload.email ||
+        action.payload.id
+      ) {
+        state.user = {
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          email: action.payload.email,
+          id: action.payload.id,
+        };
+      } else if (action.payload.user) {
+        state.user = action.payload.user;
+      }
+
       state.token = action.payload.token;
       state.error = null;
     },

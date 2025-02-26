@@ -14,6 +14,23 @@ const authService = {
       // Si on reçoit un token, on le sauvegarde
       if (response.data.body.token) {
         localStorage.setItem("token", response.data.body.token);
+
+        // NOUVELLE ÉTAPE: On récupère immédiatement le profil de l'utilisateur
+        try {
+          const profileResponse = await api.post("/user/profile");
+          // On retourne un objet qui combine le token et les données du profil
+          return {
+            ...profileResponse.data.body,
+            token: response.data.body.token,
+          };
+        } catch (profileError) {
+          console.error(
+            "Erreur lors de la récupération du profil:",
+            profileError
+          );
+          // Si la récupération du profil échoue, on retourne quand même le token
+          return response.data.body;
+        }
       }
 
       return response.data.body;
