@@ -20,7 +20,6 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.loading = false;
 
-      // Gestion flexible des données utilisateur
       // Cette approche permet de gérer différents formats de réponse API
       // et assure que le profil reste correctement synchronisé
       if (

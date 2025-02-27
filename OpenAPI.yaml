@@ -5,7 +5,7 @@ info:
     API pour la gestion des transactions bancaires d'Argent Bank.
     Cette API permet aux utilisateurs de visualiser, créer, modifier et supprimer leurs transactions.
   version: 1.0.0
-  
+
 servers:
   - url: http://localhost:3001/api/v1
     description: Serveur de développement
@@ -13,7 +13,7 @@ servers:
 tags:
   - name: transactions
     description: Opérations liées aux transactions bancaires
-
+# Récupération des transactions du mois
 paths:
   /user/{userId}/accounts/{accountId}/transactions:
     get:
@@ -41,23 +41,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Liste des transactions récupérée avec succès
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
-        '400':
+        "400":
           description: Paramètres invalides
-        '401':
+        "401":
           description: Non autorisé - Authentification requise
-        '403':
+        "403":
           description: Accès refusé - Vous n'avez pas accès à ce compte
-        '404':
+        "404":
           description: Compte non trouvé
-
+  # Récupération des détails d'une transaction
   /user/{userId}/accounts/{accountId}/transactions/{transactionId}:
     get:
       tags:
@@ -84,13 +78,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Détails de la transaction récupérés avec succès
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionDetail'
-        '404':
+                $ref: "#/components/schemas/TransactionDetail"
+        "404":
           description: Transaction non trouvée
 
     put:
@@ -126,18 +120,18 @@ paths:
               properties:
                 category:
                   type: string
-                  description: Catégorie de la transaction
+                  description: Nouvelle catégorie pour la transaction
                 notes:
                   type: string
                   description: Notes personnelles sur la transaction
       responses:
-        '200':
+        "200":
           description: Transaction modifiée avec succès
-        '400':
+        "400":
           description: Données invalides
-        '404':
+        "404":
           description: Transaction non trouvée
-
+# Définition des modèles de données
 components:
   schemas:
     Transaction:
@@ -174,7 +168,7 @@ components:
 
     TransactionDetail:
       allOf:
-        - $ref: '#/components/schemas/Transaction'
+        - $ref: "#/components/schemas/Transaction"
         - type: object
           properties:
             pending:
