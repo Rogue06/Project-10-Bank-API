@@ -11,10 +11,18 @@ function Login() {
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { loading, error } = useSelector((state) => state.auth)
+  const { loading, error, isAuthenticated } = useSelector((state) => state.auth)
 
+  // Rediriger si déjà connecté
   useEffect(() => {
-    const savedUsername = localStorage.getItem('rememberedUsername')
+    if (isAuthenticated) {
+      navigate('/profile')
+    }
+  }, [isAuthenticated, navigate])
+
+  // Charger le nom d'utilisateur sauvegardé au chargement
+  useEffect(() => {
+    const savedUsername = authService.getSavedUsername()
     if (savedUsername) {
       setUsername(savedUsername)
       setRememberMe(true)
@@ -36,9 +44,9 @@ function Login() {
 
       // 4. Si "Remember me" est coché, on sauvegarde les identifiants
       if (rememberMe) {
-        localStorage.setItem('rememberedUsername', username)
+        authService.saveUsername(username)
       } else {
-        localStorage.removeItem('rememberedUsername')
+        authService.clearSavedUsername()
       }
 
       // 5. On redirige vers la page de profil
@@ -55,7 +63,6 @@ function Login() {
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        {error && <p className="error-text">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
@@ -64,6 +71,7 @@ function Login() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
           <div className="input-wrapper">
@@ -73,6 +81,7 @@ function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="input-remember">
@@ -87,6 +96,7 @@ function Login() {
           <button type="submit" className="sign-in-button" disabled={loading}>
             {loading ? 'Loading...' : 'Sign In'}
           </button>
+          {error && <div className="error-message">{error}</div>}
         </form>
       </section>
     </main>

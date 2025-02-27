@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "clean": "rm -rf node_modules && rm -rf dist && npm install",
+    "prod": "npm run build && npm run preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",

@@ -1,4 +1,5 @@
 import api from "./api";
+import { TOKEN_STORAGE_KEY, USERNAME_STORAGE_KEY } from "../config/env";
 
 // Service pour gérer toutes les opérations d'authentification
 const authService = {
@@ -13,7 +14,7 @@ const authService = {
 
       // Si on reçoit un token, on le sauvegarde
       if (response.data.body.token) {
-        localStorage.setItem("token", response.data.body.token);
+        localStorage.setItem(TOKEN_STORAGE_KEY, response.data.body.token);
 
         // NOUVELLE ÉTAPE: On récupère immédiatement le profil de l'utilisateur
         try {
@@ -43,7 +44,7 @@ const authService = {
   // Fonction pour se déconnecter
   logout: () => {
     // On supprime le token du localStorage
-    localStorage.removeItem("token");
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
   },
 
   // Fonction pour récupérer le profil de l'utilisateur
@@ -67,6 +68,21 @@ const authService = {
     } catch (error) {
       throw error.response?.data?.message || "Une erreur est survenue";
     }
+  },
+
+  // Fonction pour sauvegarder le nom d'utilisateur (pour "Remember me")
+  saveUsername: (username) => {
+    localStorage.setItem(USERNAME_STORAGE_KEY, username);
+  },
+
+  // Fonction pour récupérer le nom d'utilisateur sauvegardé
+  getSavedUsername: () => {
+    return localStorage.getItem(USERNAME_STORAGE_KEY);
+  },
+
+  // Fonction pour supprimer le nom d'utilisateur sauvegardé
+  clearSavedUsername: () => {
+    localStorage.removeItem(USERNAME_STORAGE_KEY);
   },
 };
 
