@@ -5,7 +5,6 @@ import { loginSuccess } from './features/auth/authSlice'
 import authService from './services/authService'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
@@ -24,8 +23,7 @@ function App() {
           const userData = await authService.getUserProfile()
           dispatch(loginSuccess({ ...userData, token }))
         } catch {
-          // Si erreur (token invalide, expiré, etc.), ne rien faire
-          // La redirection sera gérée par les protections de route
+          // Si erreur (token invalide ou expiré), supprimer le token
           localStorage.removeItem('token')
         }
       }
@@ -41,14 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route 
-            path="/profile" 
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } 
-          />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </div>
