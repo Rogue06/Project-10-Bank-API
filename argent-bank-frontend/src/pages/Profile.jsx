@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { updateProfileStart, updateProfileSuccess, updateProfileFailure } from '../features/auth/authSlice'
 import authService from '../services/authService'
+import { TOKEN_STORAGE_KEY } from '../config/env'
 import { mockAccounts } from '../data/mockAccounts'
 
 function Profile() {
@@ -14,7 +15,10 @@ function Profile() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    // Si le token existe dans localStorage mais qu'on n'est pas encore authentifié, 
+    // on attend que l'authentification soit vérifiée
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY)
+    if (!token && !isAuthenticated) {
       navigate('/')
     }
   }, [isAuthenticated, navigate])

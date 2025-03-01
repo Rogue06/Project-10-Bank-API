@@ -36,8 +36,11 @@ const authService = {
 
       return response.data.body;
     } catch (error) {
-      // En cas d'erreur, on la formate pour l'afficher
-      throw error.response?.data?.message || "Une erreur est survenue";
+      // Message d'erreur personnalisé pour une connexion échouée
+      throw error.response?.status === 400
+        ? "Identifiant ou mot de passe incorrect. Veuillez réessayer."
+        : error.response?.data?.message ||
+            "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.";
     }
   },
 
@@ -53,7 +56,10 @@ const authService = {
       const response = await api.post("/user/profile");
       return response.data.body;
     } catch (error) {
-      throw error.response?.data?.message || "Une erreur est survenue";
+      throw (
+        error.response?.data?.message ||
+        "Impossible de récupérer les informations de votre profil. Veuillez vous reconnecter."
+      );
     }
   },
 
@@ -66,7 +72,10 @@ const authService = {
       });
       return response.data.body;
     } catch (error) {
-      throw error.response?.data?.message || "Une erreur est survenue";
+      throw (
+        error.response?.data?.message ||
+        "Impossible de mettre à jour votre profil. Veuillez réessayer."
+      );
     }
   },
 
