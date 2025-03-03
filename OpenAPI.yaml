@@ -89,12 +89,7 @@ paths:
           description: Identifiant du compte
           schema:
             type: string
-        - name: month
-          in: query
-          required: false
-          description: Mois des transactions (format MM-YYYY)
-          schema:
-            type: string
+
       responses:
         "200":
           description: Liste des transactions récupérée avec succès
@@ -122,7 +117,7 @@ paths:
         "404":
           description: Compte non trouvé
   # Récupération des détails d'une transaction
-  /user/{userId}/accounts/{accountId}/transactions/{transactionId}:
+  /user/{userId}/transactions/{transactionId}:
     get:
       tags:
         - transactions
@@ -137,12 +132,7 @@ paths:
           description: Identifiant de l'utilisateur (doit correspondre à l'utilisateur authentifié par le token)
           schema:
             type: string
-        - name: accountId
-          in: path
-          required: true
-          description: Identifiant du compte
-          schema:
-            type: string
+
         - name: transactionId
           in: path
           required: true
@@ -186,12 +176,7 @@ paths:
           description: Identifiant de l'utilisateur (doit correspondre à l'utilisateur authentifié par le token)
           schema:
             type: string
-        - name: accountId
-          in: path
-          required: true
-          description: Identifiant du compte
-          schema:
-            type: string
+
         - name: transactionId
           in: path
           required: true
@@ -255,12 +240,7 @@ paths:
           description: Identifiant de l'utilisateur (doit correspondre à l'utilisateur authentifié par le token)
           schema:
             type: string
-        - name: accountId
-          in: path
-          required: true
-          description: Identifiant du compte
-          schema:
-            type: string
+
         - name: transactionId
           in: path
           required: true
@@ -319,12 +299,7 @@ paths:
           description: Identifiant de l'utilisateur (doit correspondre à l'utilisateur authentifié par le token)
           schema:
             type: string
-        - name: accountId
-          in: path
-          required: true
-          description: Identifiant du compte
-          schema:
-            type: string
+
         - name: transactionId
           in: path
           required: true
